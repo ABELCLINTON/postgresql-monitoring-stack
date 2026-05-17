@@ -1,0 +1,21 @@
+groups:
+  - name: postgres_alerts
+    rules:
+
+      - alert: PostgreSQLDown
+        expr: pg_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "PostgreSQL is down"
+          description: "PostgreSQL exporter cannot reach the database."
+
+      - alert: HighDatabaseConnections
+        expr: pg_stat_database_numbackends > 5
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High database connections"
+          description: "Too many active PostgreSQL connections."
